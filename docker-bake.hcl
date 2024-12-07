@@ -6,6 +6,7 @@ group "default" {
 }
 
 target "docker-metadata-action" {
+  output = "type=registry"
 }
 
 target "service1" {
