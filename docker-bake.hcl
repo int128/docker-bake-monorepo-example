@@ -1,3 +1,10 @@
+group "default" {
+  targets = [
+    "service1",
+    "service2",
+  ]
+}
+
 target "docker-metadata-action" {
 }
 
