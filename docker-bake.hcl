@@ -12,7 +12,10 @@ target "docker-build-cache-config-action" {}
 target "service" {
   name = service
   matrix = {
-    service = ["service1", "service2"]
+    service = [
+      "service1",
+      "service2",
+    ]
   }
 
   inherits = ["docker-metadata-action"]
