@@ -1,7 +1,5 @@
 variable "GITHUB_REPOSITORY" {}
 
-variable "DOCKER_METADATA_OUTPUT_TAGS" {}
-
 group "default" {
   targets = [
     "service1",
@@ -15,12 +13,12 @@ target "service1" {
   inherits = ["docker-metadata-action"]
   context = "."
   dockerfile = "service1.dockerfile"
-  tags = ["ghcr.io/${GITHUB_REPOSITORY}/service1:${DOCKER_METADATA_OUTPUT_TAGS}"]
+  tags = ["ghcr.io/${GITHUB_REPOSITORY}/service1:${target.docker-metadata-action.tags}"]
 }
 
 target "service2" {
   inherits = ["docker-metadata-action"]
   context = "."
   dockerfile = "service2.dockerfile"
-  tags = ["ghcr.io/${GITHUB_REPOSITORY}/service2:${DOCKER_METADATA_OUTPUT_TAGS}"]
+  tags = ["ghcr.io/${GITHUB_REPOSITORY}/service2:${target.docker-metadata-action.tags}"]
 }
