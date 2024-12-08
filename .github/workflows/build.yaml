@@ -38,4 +38,6 @@ jobs:
             ./docker-bake.hcl
             ${{ steps.metadata.outputs.bake-file }}
             ${{ steps.cache.outputs.bake-file }}
-      - run: cat '${{ steps.bake.outputs.metadata }}'
+      - run: jq . <<< "$BAKE_METADATA"
+        env:
+          BAKE_METADATA: ${{ steps.bake.outputs.metadata }}
