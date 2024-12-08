@@ -31,9 +31,11 @@ jobs:
           flavor: prefix=__service__--
       - uses: docker/setup-buildx-action@v3
       - uses: docker/bake-action@v5
+        id: bake
         with:
           push: true
           files: |
             ./docker-bake.hcl
             ${{ steps.metadata.outputs.bake-file }}
             ${{ steps.cache.outputs.bake-file }}
+      - run: cat '${{ steps.bake.outputs.metadata }}'
