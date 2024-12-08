@@ -48,7 +48,6 @@ jobs:
             for (const service of services) {
               const digest = metadata[service]['containerimage.digest']
               const image = metadata[service]['image.name']
-              const uri = `${image}@${digest}`
-              core.info(`${service}=${uri}`)
+              await exec.exec('kustomize', ['edit', 'set', 'image', `${service}=${image}@${digest}`])
             }
       - run: kustomize build
