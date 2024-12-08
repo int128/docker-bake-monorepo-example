@@ -38,6 +38,16 @@ jobs:
             ./docker-bake.hcl
             ${{ steps.metadata.outputs.bake-file }}
             ${{ steps.cache.outputs.bake-file }}
-      - run: jq . <<< "$BAKE_METADATA"
+      - uses: actions/github-script@v7
         env:
-          BAKE_METADATA: ${{ steps.bake.outputs.metadata }}
+          bake_metadata: ${{ steps.bake.outputs.metadata }}
+        with:
+          script: |
+            const metadata = JSON.parse(process.env.bake_metadata)
+            const services = Object.keys(metadata)
+            for (const service of services) {
+              const digest = metadata[service]['containerimage.digest']
+              const image = metadata[service]['image.name']
+              const uri = `${image}@${digest}`
+              core.info(`${service}=${uri}`)
+            }
