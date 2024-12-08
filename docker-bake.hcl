@@ -7,16 +7,22 @@ group "default" {
 
 target "docker-metadata-action" {}
 
+target "docker-build-cache-config-action" {}
+
 target "service1" {
-  inherits = ["docker-metadata-action"]
+  inherits = ["docker-metadata-action", "docker-build-cache-config-action"]
   context = "."
   dockerfile = "service1.dockerfile"
   tags = [for tag in target.docker-metadata-action.tags : replace(tag, "__service__", "service1")]
+  cache-from = [for cache-from in target.docker-build-cache-config-action.cache-from : replace(tag, "__service__", "service1")]
+  cache-to = [for cache-to in target.docker-build-cache-config-action.cache-to : replace(tag, "__service__", "service1")]
 }
 
 target "service2" {
-  inherits = ["docker-metadata-action"]
+  inherits = ["docker-metadata-action", "docker-build-cache-config-action"]
   context = "."
   dockerfile = "service2.dockerfile"
   tags = [for tag in target.docker-metadata-action.tags : replace(tag, "__service__", "service2")]
+  cache-from = [for cache-from in target.docker-build-cache-config-action.cache-from : replace(tag, "__service__", "service2")]
+  cache-to = [for cache-to in target.docker-build-cache-config-action.cache-to : replace(tag, "__service__", "service2")]
 }
